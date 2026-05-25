@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История Беларуси — Тренажёр и Конспекты</title>
+    <!-- Подключение современных шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+    <!-- Иконки Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* CSS Переменные по системе DESIGN.md (Стиль Cal.com: монохромная уверенность) */
+        :root {
+            --bg-color: #0c0d0e;
+            --surface-color: #16171a;
+            --surface-card: #1d1e22;
+            --text-primary: #f3f4f6;
+            --text-secondary: #898989;
+            --text-muted: #4b4b4f;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            
+            /* Сложные многослойные тени (Level 2 из DESIGN.md) */
+            --shadow-ring: 0px 0px 0px 1px rgba(255, 255, 255, 0.08);
+            --shadow-card: rgba(0, 0, 0, 0.7) 0px 1px 5px -4px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.5) 0px 4px 12px 0px;
+            --shadow-inset-highlight: rgba(255, 255, 255, 0.05) 0px 2px 0px inset;
+            
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', sans-serif;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --surface-color: #f5f5f5;
+            --surface-card: #ffffff;
+            --text-primary: #242424;
+            --text-secondary: #898989;
+            --text-muted: #b3b3b3;
+            --accent-color: #0099ff;
+            --accent-hover: #0077cc;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #d97706;
+            --border-color: rgba(34, 42, 53, 0.08);
+            --shadow-ring: 0px 0px 0px 1px rgba(34, 42, 53, 0.08);
+            --shadow-card: rgba(19, 19, 22, 0.07) 0px 1px 5px -4px, rgba(34, 42, 53, 0.08) 0px 0px 0px 1px, rgba(34, 42, 53, 0.05) 0px 4px 8px 0px;
+            --shadow-inset-highlight: rgba(255, 255, 255, 0.8) 0px 2px 0px inset;
+        }
+
+        /* Базовые стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Шапка с табами переключения */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .logo-section:hover .logo-icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Табы: Тест | Конспект */
+        .navigation-tabs {
+            display: flex;
+            background: var(--surface-color);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-ring);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: calc(var(--radius-md) - 2px);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--surface-card);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-card);
+        }
+
+        .tab-btn i {
+            transition: transform 0.25s ease;
+        }
+
+        .tab-btn:hover i {
+            transform: scale(1.15);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: var(--surface-color);
+            border: none;
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-ring);
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            color: var(--text-primary);
+            background: var(--surface-card);
+            transform: translateY(-2px);
+        }
+
+        /* Безошибочный стрейк */
+        .streak-badge {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            box-shadow: var(--shadow-inset-highlight);
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1.5px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-ring);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-card);
+            transform: translateY(-1.5px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--text-primary);
+        }
+
+        /* Анимации и появление экранов */
+        .screen {
+            display: none;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН ТЕСТОВ */
+        .welcome-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 650px;
+            margin: 0 auto 28px auto;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-ring);
+        }
+
+        /* Поиск и фильтры */
+        .search-container {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        /* Сетка режимов */
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .mode-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: var(--shadow-ring);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .mode-icon {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .mode-card:hover .mode-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .mode-name {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .mode-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Сетка билетов */
+        .ticket-section-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .ticket-item {
+            background: var(--surface-color);
+            border-radius: var(--radius-md);
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-ring);
+            transition: var(--transition);
+        }
+
+        .ticket-item:hover {
+            background: var(--surface-card);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .ticket-item.completed {
+            border-bottom: 3px solid var(--success-color);
+        }
+
+        /* ЭКРАН ВОПРОСА */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--text-primary);
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .ticket-badge {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-ring);
+        }
+
+        .question-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            line-height: 1.35;
+            font-weight: 700;
+            margin-bottom: 28px;
+        }
+
+        .timer-badge {
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .timer-badge.danger {
+            color: var(--error-color);
+            animation: pulse-danger 1s infinite;
+        }
+
+        @keyframes pulse-danger {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Варианты ответов */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-item {
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-ring);
+        }
+
+        .option-item:hover:not(.disabled) {
+            transform: translateX(4px);
+            background: var(--surface-color);
+            box-shadow: var(--shadow-card);
+        }
+
+        .option-item.correct {
+            background: rgba(16, 185, 129, 0.08) !important;
+            box-shadow: 0px 0px 0px 1.5px var(--success-color) !important;
+            color: var(--success-color);
+            animation: pulse-correct 0.4s ease;
+        }
+
+        .option-item.wrong {
+            background: rgba(239, 68, 68, 0.08) !important;
+            box-shadow: 0px 0px 0px 1.5px var(--error-color) !important;
+            color: var(--error-color);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        @keyframes pulse-correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.015); }
+            100% { transform: scale(1); }
+        }
+
+        .option-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1.5px solid var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .option-item.correct .option-marker {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .option-item.wrong .option-marker {
+            background: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+        }
+
+        /* Информационные плашки результатов ответа */
+        .info-panel {
+            margin-top: 16px;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: none;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: var(--shadow-ring);
+        }
+
+        .explanation-panel {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--text-primary);
+        }
+
+        .wrong-analysis-panel {
+            background: rgba(239, 68, 68, 0.02);
+            border-left: 4px solid var(--error-color);
+        }
+
+        .panel-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .panel-text b, .panel-text strong {
+            color: var(--text-primary);
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* ЭКРАН КОНСПЕКТОВ */
+        .conspect-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+            margin-top: 12px;
+            flex-grow: 1;
+        }
+
+        .conspect-sidebar {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-ring);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+
+        .sidebar-search {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .sidebar-search-input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 13px;
+            outline: none;
+        }
+
+        .sidebar-search-input:focus {
+            border-color: var(--text-primary);
+        }
+
+        .sidebar-search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            width: 16px;
+            height: 16px;
+        }
+
+        .conspect-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 4px;
+        }
+
+        /* Скроллбары */
+        .conspect-list::-webkit-scrollbar, .conspect-sidebar::-webkit-scrollbar, .conspect-content-area::-webkit-scrollbar {
+            width: 6px;
+        }
+        .conspect-list::-webkit-scrollbar-track, .conspect-sidebar::-webkit-scrollbar-track, .conspect-content-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .conspect-list::-webkit-scrollbar-thumb, .conspect-sidebar::-webkit-scrollbar-thumb, .conspect-content-area::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+        }
+
+        .conspect-nav-item {
+            padding: 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            text-align: left;
+            border: none;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            line-height: 1.4;
+            box-shadow: none;
+        }
+
+        .conspect-nav-item:hover {
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+
+        .conspect-nav-item.active {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            font-weight: 600;
+        }
+
+        .conspect-nav-item.active .nav-item-num {
+            color: var(--bg-color);
+            opacity: 0.8;
+        }
+
+        .nav-item-num {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .conspect-content-area {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+
+        .conspect-header-block {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .conspect-ticket-num {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .conspect-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--text-primary);
+        }
+
+        .conspect-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .conspect-body h3 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-top: 24px;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .conspect-body p {
+            margin-bottom: 16px;
+        }
+
+        .conspect-body ul, .conspect-body ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .conspect-body li {
+            margin-bottom: 8px;
+        }
+
+        /* Выделение важных терминов и ключевых дат в конспекте */
+        .conspect-body strong, .conspect-body b {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1px 4px;
+            border-radius: var(--radius-sm);
+        }
+
+        .conspect-body mark {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        /* ЭКРАН РЕЗУЛЬТАТОВ */
+        .result-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            margin: 0 auto 24px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-card);
+        }
+
+        .score-number {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .result-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .result-desc {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+
+        /* Футер */
+        footer {
+            margin-top: auto;
+            padding: 24px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        /* Холст конфетти */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 850px) {
+            .conspect-container {
+                grid-template-columns: 1fr;
+            }
+            .conspect-sidebar {
+                max-height: 250px;
+            }
+            .conspect-content-area {
+                max-height: none;
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .welcome-title {
+                font-size: 32px;
+            }
+            .question-text {
+                font-size: 20px;
+            }
+            .question-card {
+                padding: 20px;
+            }
+            .timer-badge {
+                position: static;
+                margin-bottom: 12px;
+            }
+            .quiz-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .quiz-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <!-- Шапка -->
+        <header>
+            <div class="logo-section" onclick="showWelcomeScreen()">
+                <div class="logo-icon">Б</div>
+                <div class="logo-title">Гісторыя</div>
+            </div>
+
+            <!-- Главное переключение между Тестом и Конспектом -->
+            <div class="navigation-tabs">
+                <button class="tab-btn active" id="nav-test-tab" onclick="switchNavTab('test')">
+                    <i data-lucide="check-square" style="width:16px;height:16px;"></i> Тест
+                </button>
+                <button class="tab-btn" id="nav-conspect-tab" onclick="switchNavTab('conspect')">
+                    <i data-lucide="book-open" style="width:16px;height:16px;"></i> Конспект
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <div id="streak-indicator" class="streak-badge" style="display: none;">
+                    <i data-lucide="flame" style="width:16px;height:16px;"></i>
+                    <span id="streak-count">0</span>
+                </div>
+                <button class="icon-btn" id="theme-toggle" title="Сменить тему">
+                    <i data-lucide="sun" id="theme-icon" style="width:18px;height:18px;"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- ЭКРАН ТЕСТА (ГЛАВНЫЙ) -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-card">
+                <span class="welcome-badge">К экзамену за 9 класс готовы на 100%</span>
+                <h1 class="welcome-title">Тренажёр по истории Беларуси</h1>
+                <p class="welcome-subtitle">
+                    Прорабатывайте сложные темы, решайте случайные тесты и перечитывайте билеты во встроенном конспекте.
+                </p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="startMode('random')">
+                        <i data-lucide="shuffle" style="width:16px;height:16px;"></i> Случайные вопросы
+                    </button>
+                    <button class="btn btn-secondary" onclick="startMode('weak')" id="btn-weak-spots" disabled>
+                        <i data-lucide="alert-triangle" style="width:16px;height:16px;"></i> Слабые места (<span id="weak-count-badge">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Поиск по билетам -->
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="ticket-search" class="search-input" placeholder="Поиск билета по теме, ключевым словам...">
+            </div>
+
+            <!-- Доп. Режимы -->
+            <div class="modes-grid">
+                <div class="mode-card" onclick="startMode('exam')">
+                    <div>
+                        <div class="mode-icon"><i data-lucide="award" style="width:24px;height:24px;"></i></div>
+                        <h3 class="mode-name">Режим «Экзамен»</h3>
+                        <p class="mode-desc">Случайный билет со всеми вопросами подряд, как на реальном испытании.</p>
+                    </div>
+                </div>
+                <div class="mode-card" onclick="resetStats()" style="border: 1px dashed var(--border-color); cursor: pointer;">
+                    <div>
+                        <div class="mode-icon" style="color: var(--text-muted);"><i data-lucide="rotate-ccw" style="width:24px;height:24px;"></i></div>
+                        <h3 class="mode-name">Сбросить прогресс</h3>
+                        <p class="mode-desc">Очистить историю ваших ответов, слабых мест и правильных серий.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Список билетов -->
+            <h2 class="ticket-section-title"><i data-lucide="list-checks" style="width:22px;height:22px;"></i> Выберите Экзаменационный Билет (1–25)</h2>
+            <div class="tickets-grid" id="tickets-list-grid">
+                <!-- Заполняется JS -->
+            </div>
+        </div>
+
+        <!-- ЭКРАН ВОПРОСА -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div>
+                    <span id="quiz-info-mode">Режим</span> • <span id="quiz-info-ticket">Билет №</span>
+                </div>
+                <div id="timer-display" class="timer-badge">
+                    <i data-lucide="clock" style="width:16px;height:16px;"></i>
+                    <span id="timer-seconds">30</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div id="quiz-progress" class="progress-bar"></div>
+            </div>
+
+            <div class="question-card">
+                <span class="ticket-badge" id="question-theme-badge">Тема</span>
+                <h2 class="question-text" id="question-title-text">Текст вопроса</h2>
+
+                <div class="options-list" id="options-container">
+                    <!-- Опции -->
+                </div>
+
+                <!-- Анализ неверного ответа -->
+                <div id="wrong-analysis-panel" class="info-panel wrong-analysis-panel">
+                    <div class="panel-title"><i data-lucide="alert-circle" style="width:16px;height:16px;"></i> К чему вёл неверный ответ:</div>
+                    <div class="panel-text" id="wrong-analysis-text-content"></div>
+                </div>
+
+                <!-- Объяснение правильного ответа -->
+                <div id="explanation-panel" class="info-panel explanation-panel">
+                    <div class="panel-title"><i data-lucide="info" style="width:16px;height:16px;"></i> Правильный ответ и разъяснение:</div>
+                    <div class="panel-text" id="explanation-text-content"></div>
+                </div>
+            </div>
+
+            <div class="quiz-actions">
+                <button class="btn btn-outline" id="hint-button" onclick="useHint()">
+                    <i data-lucide="sparkles" style="width:16px;height:16px;"></i> Подсказка "50/50" (<span id="hints-count-badge">3</span>)
+                </button>
+                <button class="btn btn-primary" id="next-button" onclick="goToNextQuestion()" style="display: none;">
+                    Следующий вопрос <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН КОНСПЕКТОВ -->
+        <div id="conspect-screen" class="screen">
+            <div class="conspect-container">
+                <!-- Левый сайдбар со списком билетов -->
+                <div class="conspect-sidebar">
+                    <div class="sidebar-search">
+                        <i data-lucide="search" class="sidebar-search-icon"></i>
+                        <input type="text" id="conspect-search-input" class="sidebar-search-input" placeholder="Поиск по конспектам..." oninput="filterConspects()">
+                    </div>
+                    <div class="conspect-list" id="conspect-nav-list">
+                        <!-- Заполнится динамически -->
+                    </div>
+                </div>
+
+                <!-- Правая область с текстом конспекта -->
+                <div class="conspect-content-area" id="conspect-content-area">
+                    <!-- Заполнится динамически на основе выбранного билета -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ЭКРАН РЕЗУЛЬТАТОВ -->
+        <div id="result-screen" class="screen">
+            <div class="result-card">
+                <div class="score-circle">
+                    <span class="score-number" id="result-score-val">80%</span>
+                    <span class="score-label">Успешно</span>
+                </div>
+                <h2 class="result-title" id="result-title-txt">Прекрасный результат!</h2>
+                <p class="result-desc" id="result-desc-txt">Вы отлично справились с тестом по истории Беларуси. Продолжайте в том же духе!</p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="backToWelcome()">
+                        <i data-lucide="home" style="width:16px;height:16px;"></i> На главную
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareResult()">
+                        <i data-lucide="share-2" style="width:16px;height:16px;"></i> Поделиться
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <footer>
+            <div class="footer-links">
+                <a href="https://adukar.com" target="_blank">Adukar</a>
+                <a href="https://adu.by" target="_blank">МинОбразования РБ</a>
+                <a href="https://ru.wikipedia.org" target="_blank">Википедия</a>
+                <a href="https://zubr.in/history" target="_blank">Zubr History</a>
+            </div>
+            <div>© 2026 Интерактивный тренажёр-конспект по истории Беларуси. 9 класс.</div>
+        </footer>
+    </div>
+
+    <script>
+        // ПОЛНАЯ БАЗА ДАННЫХ КОНСПЕКТОВ ИЗ ВАШЕГО ФАЙЛА DOCX
+        const conspectsDatabase = {
+            1: {
+                title: "Древние люди на территории Беларуси: заселение территории, занятия, основные изобретения и открытия, религиозные верования",
+                html: `
+                    <h3>1. Три периода первобытного строя</h3>
+                    <p>История первобытного строя на наших землях делится на три периода: <mark>каменный, бронзовый и железный века</mark>.</p>
+                    <p>Первые люди — <strong>кроманьонцы</strong> появились на юге Беларуси в эпоху позднего палеолита (<b>40-35 тыс. лет назад</b>). Они приспособились к жизни в суровом холодном климате.</p>
+
+                    <h3>2. Каменный век (закончился в конце 3-го тысячелетия до н.э.)</h3>
+                    <p><b>Ключевые достижения:</b> освоение добычи огня, изобретение остроконечных кремнёвых орудий.</p>
+                    <p><b>Форма хозяйства:</b> <mark>присваивающее хозяйство</mark> (люди брали от природы всё в готовом виде: занимались собирательством корней, охотой на мамонтов и северных оленей). Постепенно переходили к оседлому образу жизни. Жили <b>родовыми общинами</b> во главе со старейшинами, роды объединялись в племена. Господствовал <strong>матриархат</strong>.</p>
+
+                    <h3>3. Бронзовый век (2-ое тысячелетие до н.э. — VIII в. до н.э.)</h3>
+                    <p><b>Особенности:</b> готовые изделия из меди и бронзы попадали на территорию Беларуси из южных районов. В эту эпоху произошел важнейший переход к <mark>производящему хозяйству</mark> (земледелие и скотоводство).</p>
+                    <p><b>Земледелие:</b> сначала было мотыжным, затем переросло в <strong>подсечно-огневое</strong> (высекали лес, сжигали пни, а пепел служил удобрением). На смену матриархату пришел <strong>патриархат</strong>. Начали проникать индоевропейцы.</p>
+
+                    <h3>4. Железный век (с VII в. до н.э.)</h3>
+                    <p><b>Особенности:</b> люди научились добывать болотную железную руду на месте. Появилось и развивалось <strong>пашенное земледелие</strong>. Возникновение излишков привело к <b>имущественному неравенству</b>, появились богатые и бедные. Для защиты поселений от набегов начали строить укрепленные поселения — <mark>городища</mark>.</p>
+
+                    <h3>5. Религиозные представления и искусство</h3>
+                    <p>Неспособность объяснить грозные силы природы вела к вере в сверхъестественные явления, существование души и ее бессмертие. Возникли похоронные обряды, сформировался обычай насыпать над могилами холмы — <b>курганы</b>. Появились первые памятники искусства: скульптуры, костяные украшения и первые музыкальные инструменты.</p>
+                `
+            },
+            2: {
+                title: "Полоцкое и Туровское княжества в X–XII вв.: территория, действия князей, раздробленность",
+                html: `
+                    <h3>1. Первое государственное образование</h3>
+                    <p>В конце <strong>IX в.</strong> возникает <b>Киевская Русь</b>. Первым самостоятельным государственным образованием на территории современной Беларуси стало <mark>Полоцкое княжество</mark> с центром в г. Полоцке (первое летописное упоминание — <strong>862 год</strong>).</p>
+
+                    <h3>2. Рогволод, Рогнеда и трагедия Полоцка</h3>
+                    <p>Первым известным полоцким князем стал <strong>Рогволод</strong>. Он отказал в согласии на брак своей дочери <b>Рогнеды</b> с новгородским князем <b>Владимиром</b>. В ответ Владимир взял Полоцк штурмом, сжег город и убил семью Рогволода, силой женившись на Рогнеде.</p>
+                    <p>В <strong>988 году</strong> Владимир крестил Русь. Рогнеда (получившая в Киеве имя <b>Горислава</b>) совершила покушение на мужа, за что ей грозила казнь. На её защиту с мечом встал малолетний сын <strong>Изяслав</strong>. В результате Владимир выслал их в Полоцкую землю, где был построен город Изяславль (ныне Заславль). Рогнеда ушла в монастырь под именем <b>Анастасия</b> (княжна с тремя именами), а Изяслав правил Полоцком как князь-книжник, распространявший христианство.</p>
+
+                    <h3>3. Усиление Полоцка в XI веке</h3>
+                    <p>Наивысшего подъема княжество достигло при внуке Изяслава — <strong>Всеславе Брячиславиче (Чародее)</strong>, правившем более 50 лет. В <strong>1067 году</strong> Всеслав захватил Новгород. В ответ киевские князья напали на Минск. <mark>3 марта 1067 года состоялась легендарная битва на реке Немиге</mark>, Минск был сожжен.</p>
+                    <p>Власть князя в Полоцке сочеталась с народным собранием — <b>вече</b>. Действовали письменные законы «Русская правда».</p>
+
+                    <h3>4. Туровское княжество</h3>
+                    <p>Располагалось на Полесье. Центр — <b>г. Туров</b>, впервые упоминается в <strong>980 г.</strong> Подчинялся старшему сыну Киевского князя. В середине XII в. в Турове установилась собственная княжеская династия. Вторым крупным центром стал <b>Пинск</b>, находящийся на торговом пути из Киева в Польшу, из-за чего он со временем возвысился над Туровом.</p>
+                `
+            },
+            3: {
+                title: "Христианизация белорусских земель в X–XIII вв.: причины и значение, религиозные деятели-просветители",
+                html: `
+                    <h3>1. Принятие христианства</h3>
+                    <p>Христианская вера распространяется с X в. В <mark>992 г. князь Изяслав основал Полоцкую епархию</mark>. Долгое время христианство сосуществовало с язычеством (<b>двоеверие</b>).</p>
+
+                    <h3>2. Письменность и летописание</h3>
+                    <p>Христианство дало толчок развитию письменности. Для бытовых записей служили <b>берестяные грамоты</b>. С X в. зарождается летописание. Важнейший документ — <strong>«Повесть временных лет» (XII в.)</strong>. Первая рукописная книга на территории Беларуси — <b>Туровское евангелие (XI в.)</b> на пергаменте.</p>
+
+                    <h3>3. Просветители XII века</h3>
+                    <p><strong>Евфросиния Полоцкая (Предслава)</strong> в 12 лет ушла в монастырь. Основала мужской и женский монастыри в Полоцке, переписывала книги, открывала школы. Считается первой святой женщиной среди восточных славян.</p>
+                    <p><strong>Кирилл Туровский</strong> — епископ, писатель, проповедник-отшельник. За красноречие прозван современниками <i>Златоустом</i>.</p>
+
+                    <h3>4. Выдающиеся памятники архитектуры и искусства</h3>
+                    <ul>
+                        <li><b>Софийский собор</b> в Полоцке — построен из плинфы, расписан уникальными фресками.</li>
+                        <li><b>Коложская (Борисоглебская) церковь</b> в Гродно — имеет встроенные в стены глиняные кувшины-голосники для отличной акустики.</li>
+                        <li><mark>Крест Евфросинии Полоцкой (1161 г.)</mark> — шестиконечный напрестольный крест, шедевр ювелира <b>Лазаря Богши</b>, покрытый золотом, серебром и драгоценными эмалями. Христианская реликвия белорусов.</li>
+                    </ul>
+                `
+            },
+            4: {
+                title: "Образование Великого Княжества Литовского: причины объединения земель, пути вхождения в ВКЛ",
+                html: `
+                    <h3>1. Исторический контекст возникновения</h3>
+                    <p><b>ВКЛ</b> появляется на политической карте в <strong>XIII веке</strong>.</p>
+                    <p><b>Основные причины создания:</b> организация совместной обороны против немецких рыцарей-крестоносцев и монголо-татар, преодоление феодальной раздробленности. Экономические условия связаны с развитием ремесел и расширением внутренней торговли.</p>
+
+                    <h3>2. Возвышение Новогрудка и Миндовг</h3>
+                    <p>Процесс объединения начался в верхнем и среднем течении реки Неман. В середине XIII века возвысилось <b>Новогрудское княжество</b> благодаря удаленности от опасных зон и сильной экономике. Балтский князь <strong>Миндовг</strong> прибыл в Новогрудок, принял христианство и сделал его своей резиденцией. <mark>В 1253 г. в Новогрудке состоялась коронация Миндовга</mark>. Он правил государством в 1230-е — 1263 гг.</p>
+
+                    <h3>3. Рост территории и государственные символы</h3>
+                    <p>Великий князь <b>Витень</b> укрепил единство княжества и ввёл герб государства — <strong>«Погоня»</strong>. При князе <b>Гедимине (1316-1341)</b> титул стал звучать как «король Литвы и Руси». В итоге государство получило полное название — <mark>Великое Княжество Литовское, Русское и Жемайтское</mark>.</p>
+                `
+            },
+            5: {
+                title: "Борьба с агрессией крестоносцев в XIII–XV вв.: Давыд Городенский, Андрей Полоцкий, Грюнвальдская битва",
+                html: `
+                    <h3>1. Причины столкновения</h3>
+                    <p>Крестоносцы стремились распространить католичество и усилить влияние Римско-католической церкви в Восточной Европе. В начале XIV века в защите Гродно и Новогрудка отличился староста г. Гродно <strong>Давыд Городенский</strong>. В 1360–1370-е гг. крестоносцам успешно противостоял <strong>Андрей Полоцкий</strong> (старший сын Ольгерда).</p>
+
+                    <h3>2. Подготовка к войне</h3>
+                    <p>В начале XV века крестоносцы захватили Жемайтию и мешали купеческой торговле ВКЛ. Польский король <b>Ягайло</b> и великий князь литовский <b>Витовт</b> на секретном совещании в Новогрудке договорились вернуть земли. В 1409 году вспыхнуло восстание в Жемайтии, положившее начало <b>«Великой войне»</b>.</p>
+
+                    <h3>3. Грюнвальдская битва (15 июля 1410 г.)</h3>
+                    <p>Объединенное союзное войско ВКЛ (40 хоругвей во главе с <b>Витовтом</b>) и Польши (под общим руководством <b>Ягайло</b>) наголову разбило армию Тевтонского ордена. <mark>Победа под Грюнвальдом навсегда остановила 200-летнюю агрессию крестоносцев</mark> на восток.</p>
+                `
+            },
+            6: {
+                title: "Франциск Скорина – белорусский первопечатник, просветитель. Последователи Франциска Скорины",
+                html: `
+                    <h3>1. Жизнь и труды Франциска Скорины</h3>
+                    <p><strong>Франциск Скорина</strong> (ок. 1490 — ок. 1551) родился в Полоцке. Окончил Краковский университет, затем успешно защитил звание доктора медицины в Падуанском университете в Италии.</p>
+                    <p><mark>6 августа 1517 г. в Праге издал первую печатную книгу на старобелорусском языке — «Псалтырь»</mark>. Перевел Библию на понятный старобелорусский язык. В 1522 и 1525 гг. в Вильне напечатал «Малую подорожную книжицу» и «Апостол».</p>
+
+                    <h3>2. Последователи Скорины</h3>
+                    <ul>
+                        <li><b>Сымон Будный</b> — в 1562 г. в Несвиже издал первую на территории Беларуси старобелорусскую печатную книгу <strong>«Катехизис»</strong>.</li>
+                        <li><b>Василий Тяпинский</b> — перевел и напечатал Евангелие.</li>
+                        <li><b>Петр Мстиславец</b> и Иван Федоров — издали книгу «Апостол» (1564) в Москве, затем продолжили дело в ВКЛ.</li>
+                        <li><mark>Первая в мире книга под названием «Букварь» была издана в 1618 году</mark> в местечке Евье.</li>
+                        <li><b>Мелетий Смотрицкий</b> — создал учебник «Грамматика», по которому позже учился М. Ломоносов.</li>
+                    </ul>
+                `
+            },
+            7: {
+                title: "Беларусь в период Отечественной войны 1812 г.: боевые действия, отношение к войне, итоги",
+                html: `
+                    <h3>1. Наступление Наполеона</h3>
+                    <p>Армия Наполеона Бонапарта вторглась в пределы России в <strong>июне 1812 г.</strong> Разбить русские войска на белорусских землях по отдельности французам не удалось: армии объединились под Смоленском.</p>
+
+                    <h3>2. Раскол в белорусском обществе</h3>
+                    <p><b>Польская шляхта</b> поддержала Наполеона, надеясь на возрождение ВКЛ и Речи Посполитой. Наполеон даже создал Временное правительство ВКЛ в Вильне. <b>Крестьяне</b> изначально надеялись на отмену крепостного права, но бесконечные поборы и грабежи привели к развертыванию крестьянского партизанского сопротивления.</p>
+
+                    <h3>3. Разгром Наполеона и итоги</h3>
+                    <p>Осенью 1812 г. началось отступление французов. <mark>Решающее сражение произошло на переправе через реку Березина у деревни Студенка</mark>. Война принесла Беларуси колоссальные разрушения, упадок городов и сельского хозяйства.</p>
+                `
+            },
+            8: {
+                title: "Люблинская уния 1569 г. и Статут ВКЛ 1588 г.: причины, условия, борьба за самостоятельность",
+                html: `
+                    <h3>1. Создание Речи Посполитой</h3>
+                    <p><mark>1 июля 1569 года в результате Люблинской унии</mark> возникло новое союзное государство — <strong>Речь Посполитая</strong> (федерация Польского королевства и ВКЛ). Главная причина для ВКЛ — тяжелое поражение в Ливонской войне (1558-1583) против Московского царства.</p>
+
+                    <h3>2. Условия унии и сопротивление ВКЛ</h3>
+                    <p>ВКЛ сохранило свой административный аппарат, армию, законы (Статуты), печать и государственный старобелорусский язык. При этом шляхта ВКЛ постепенно подвергалась <b>полонизации</b>. В <strong>1697 году</strong> по акту «Уравнение прав» шляхта ВКЛ полностью сравнялась в правах с польской, приняв польский язык.</p>
+
+                    <h3>3. Статут ВКЛ 1588 года</h3>
+                    <p>Третий Статут ВКЛ был издан на старобелорусском языке под руководством Льва Сапеги. Он зафиксировал фактическую независимость и автономию ВКЛ внутри Речи Посполитой вопреки унии. Сапега сформулировал в нём передовую <mark>идею правового государства</mark>.</p>
+                `
+            },
+            9: {
+                title: "Формирование белорусской народности в XIV–XVIII вв. Происхождение названия «Белая Русь»",
+                html: `
+                    <h3>1. Признаки белорусской народности</h3>
+                    <p>Белорусская народность формировалась в рамках единого государства ВКЛ. Главными признаками стали: единство территории, общность традиционной материальной культуры и <mark>складывание старобелорусского языка</mark>, ставшего государственным в ВКЛ.</p>
+
+                    <h3>2. Версии происхождения названия «Белая Русь»</h3>
+                    <ul>
+                        <li><b>Географическая:</b> белый цвет в древности ассоциировался с востоком.</li>
+                        <li><b>Этнографическая:</b> местные жители традиционно носили светлые полотняные одежды и имели светлые волосы.</li>
+                        <li><b>Религиозная:</b> «белая» означала христианскую, православную, свободную от католического влияния.</li>
+                        <li><b>Политическая:</b> <mark>Белой Русью называли свободные земли</mark>, не захваченные монголо-татарами или немецкими крестоносцами.</li>
+                    </ul>
+                `
+            },
+            10: {
+                title: "Аграрная реформа 1861 г. и Столыпинская реформа на белорусских землях",
+                html: `
+                    <h3>1. Крестьянская реформа 1861 года</h3>
+                    <p><b>19 февраля 1861 года</b> крестьяне получили личную свободу и гражданские права. Однако землю приходилось выкупать у помещиков по завышенным ценам под процент на 49 лет. До выкупа крестьяне считались <mark>временнообязанными</mark> и продолжали нести повинности (платить чинш).</p>
+
+                    <h3>2. Столыпинская реформа (с 1906 года)</h3>
+                    <p><b>Цель:</b> разрушение крестьянской общины и развитие капитализма в сельском хозяйстве.</p>
+                    <p>Крестьянам разрешалось закреплять землю в собственность в виде обособленного надела в границах деревни (<strong>отруб</strong>) либо переселяться на отдельный участок вне общины (<strong>хутор</strong>). Реформа ускорила развитие капиталистических отношений по американскому пути.</p>
+                `
+            },
+            11: {
+                title: "Революция 1905–1907 гг. и Февральская революция 1917 г. в Беларуси",
+                html: `
+                    <h3>1. Революция 1905–1907 гг.</h3>
+                    <p>Вызвала раскол общества на три лагеря: правительственный, либеральный (кадеты, октябристы) и революционно-демократический (РСДРП, Бунд, БСГ). БСГ требовала автономии Беларуси.</p>
+                    <p>В ответ на «Кровавое воскресенье» <mark>18 октября 1905 г. в Минске произошел Курловский расстрел</mark> царскими войсками мирного митинга.</p>
+
+                    <h3>2. Февральская революция 1917 года</h3>
+                    <p><b>2 марта 1917 г.</b> царь Николай II отрекся от престола. Самодержавие пало. Возникло двоевластие (Временное правительство и Советы). Белорусское национальное движение во главе с БСГ на съездах в Минске потребовало автономии Беларуси.</p>
+                `
+            },
+            12: {
+                title: "Беларусь в годы Первой мировой войны: основные события, итоги и беженство",
+                html: `
+                    <h3>1. Начало войны и Свенцянский прорыв</h3>
+                    <p>Первая мировая война началась <b>1 августа 1914 г.</b> В 1915 г. немецкие войска перенесли главный удар на Восточный фронт. В ходе Свенцянского прорыва немцы оккупировали Брест, Гродно и Вилейку.</p>
+
+                    <h3>2. Стабилизация фронта</h3>
+                    <p>Линия фронта установилась по линии Двинск — Поставы — Барановичи — Пинск. <mark>Героическая оборона Сморгони русскими войсками длилась рекордные 810 дней</mark>. Здесь немцы впервые применили ядовитый газ.</p>
+
+                    <h3>3. Последствия для населения</h3>
+                    <p>Около четверти территории Беларуси оказалась под жестокой германской оккупацией. Из-за военных действий началось массовое <mark>беженство на восток</mark>. Промышленность и сельское хозяйство пришли в полный упадок.</p>
+                `
+            },
+            13: {
+                title: "Беларусь во время Октябрьской революции 1917 г. и политика «военного коммунизма»",
+                html: `
+                    <h3>1. Переход власти к Советам</h3>
+                    <p><b>7 ноября 1917 г.</b> в Петрограде большевики свергли Временное правительство. В Минске власть перешла к Военно-революционному комитету (ВРК) Западной области во главе с <b>Л. Мясниковым</b>.</p>
+
+                    <h3>2. Социалистические преобразования</h3>
+                    <p>Большевики национализировали крупную промышленность, ликвидировали помещичье землевладение и раздали землю крестьянам.</p>
+
+                    <h3>3. Политика «военного коммунизма» (1918–1920)</h3>
+                    <p>Были запрещены частная торговля и деньги, введен натуральный обмен. <mark>Главной мерой стала продразверстка</mark> — принудительное изъятие у крестьян всех излишков хлеба на нужды Красной Армии.</p>
+                `
+            },
+            14: {
+                title: "Создание Социалистической Советской Республики Беларуси (ССРБ) и БНР",
+                html: `
+                    <h3>1. Провозглашение БНР</h3>
+                    <p>В условиях германской оккупации Рада Всебелорусского съезда приняла 3-ю Уставную грамоту. <mark>25 марта 1918 года была провозглашена независимость Белорусской Народной Республики (БНР)</mark>. Её символами стали герб «Погоня» и бело-красно-белый флаг.</p>
+
+                    <h3>2. Провозглашение ССРБ и Литбел</h3>
+                    <p>В противовес БНР большевики провозгласили создание советской республики. <mark>1 января 1919 года в Смоленске объявлено создание ССРБ</mark>. В феврале 1919 года была принята первая Конституция ССРБ, а республику временно объединили с Литвой в буферное государство <b>Литбел</b>. Повторно независимость ССРБ провозгласили после освобождения Минска <b>31 июля 1920 года</b>.</p>
+                `
+            },
+            15: {
+                title: "Беларусь в годы польско-советской войны 1919–1921 гг. Последствия Рижского мира",
+                html: `
+                    <h3>1. Ход войны и террор оккупантов</h3>
+                    <p>В феврале 1919 г. началась война с Польшей, стремившейся восстановить Речь Посполитую. Польские войска оккупировали большую часть Беларуси. Польские власти восстановили помещичье землевладение, закрывали белорусские школы. <mark>Народным героем стал 74-летний дед Талаш</mark>, организовавший партизанский отряд на Полесье.</p>
+
+                    <h3>2. Контрнаступление и Рижский мир</h3>
+                    <p>Летом 1920 г. Красная Армия освободила Минск и Брест, дойдя до Варшавы, но потерпела поражение.</p>
+                    <p><mark>18 марта 1921 года был подписан Рижский мирный договор</mark>. Западная Беларусь отошла к Польше. За БССР сохранилось только 6 уездов бывшей Минской губернии.</p>
+                `
+            },
+            16: {
+                title: "Политика белорусизации. Основные достижения науки, литературы и искусства БССР в 1920–1930-е гг.",
+                html: `
+                    <h3>1. Белорусизация (с 1924 года)</h3>
+                    <p>Комплекс мер по развитию белорусского языка, школы и госаппарата. В <strong>1922 году</strong> открыт <b>Инбелкульт</b>, преобразованный в <strong>1929 году</strong> в Белорусскую Академию наук. Государственными были объявлены 4 языка.</p>
+
+                    <h3>2. Наука и литература</h3>
+                    <p>Ученый <b>О. Шмидт</b> исследовал математические законы денежной эмиссии, а <b>А. Чижевский</b> основал гелиобиологию (изобрел «люстру Чижевского»).</p>
+                    <p>В литературе возник жанр романа: <strong>Якуб Колас</strong> («Новая земля») и <strong>Янка Купала</strong> («Павлинка») стали народными поэтами БССР.</p>
+
+                    <h3>3. Театр, кино и архитектура</h3>
+                    <p>В 1926 году вышел первый белорусский немой фильм <mark>«Лесная быль» (реж. Ю. Тарич)</mark>. В Минске построены Дом правительства и Большой театр оперы и балета.</p>
+                `
+            },
+            17: {
+                title: "Индустриализация и коллективизация сельского хозяйства в БССР в 1920–1930-е гг.",
+                html: `
+                    <h3>1. Индустриализация в БССР</h3>
+                    <p>Курс взят в <b>1925 году</b>. В БССР акцент делался на легкую, швейную, пищевую и деревообрабатывающую промышленность. Построены фабрика «КИМ», кондитерские фабрики «Коммунарка» и «Спартак». К концу 1930-х гг. БССР стала <mark>индустриально-аграрной страной</mark>.</p>
+
+                    <h3>2. Коллективизация и «великий перелом»</h3>
+                    <p>Курс взят в <b>1927 году</b>. <strong>1929 год</strong> объявлен «годом великого перелома» — началось форсированное объединение крестьянских хозяйств в колхозы. Несогласных объявляли «кулаками» и ссылали в Сибирь. В 1932 г. колхозникам <mark>не выдали паспорта</mark>, прикрепив их к земле.</p>
+                `
+            },
+            18: {
+                title: "Западная Беларусь в составе Польши (1921–1939 гг.) и национально-освободительное движение",
+                html: `
+                    <h3>1. Польский колониальный гнёт</h3>
+                    <p>В Западной Беларуси действовал жесткий авторитарный режим Пилсудского («Санация»). В <b>1934 г.</b> был открыт концентрационный лагерь в <mark>Березе-Картузской</mark>. Западная Беларусь использовалась Польшей как источник дешевого сырья и рабочей силы. В ответ на поборы произошло <b>восстание нарочанских рыбаков (1935-1939)</b>.</p>
+
+                    <h3>2. Сопротивление и воссоединение</h3>
+                    <p>Борьбу вели Коммунистическая партия Западной Беларуси (КПЗБ) и Белорусская крестьянско-рабочая громада (БКРГ) Бронислава Тарашкевича. <mark>17 сентября 1939 г. Красная Армия начала освободительный поход</mark>, воссоединив эти земли с БССР.</p>
+                `
+            },
+            19: {
+                title: "Подвиг белорусского народа в годы Великой Отечественной войны",
+                html: `
+                    <h3>1. Оборонительные бои 1941 г.</h3>
+                    <p><b>Брестская крепость</b> держалась около месяца. Оборона <b>Могилева</b> (Буйничское поле) длилась 23 дня под командованием С. Кутепова. Под Оршей батарея капитана <b>И. Флёрова</b> впервые применила реактивные минометы «Катюша».</p>
+
+                    <h3>2. Партизанское движение и подполье</h3>
+                    <p>Уже 26 июня 1941 года <b>Василий Корж</b> создал первый отряд в Пинском районе. В 1942 г. создан Белорусский штаб партизанского движения во главе с П. Пономаренко. Проведена масштабная диверсия <mark>«Рельсовая война»</mark>.</p>
+                    <p>В Орше подпольщик <b>Константин Заслонов</b> парализовал движение немецких поездов при помощи угольных мин.</p>
+                `
+            },
+            20: {
+                title: "Геноцид населения Беларуси в годы ВОВ: план «Ост» и трагедия Хатыни",
+                html: `
+                    <h3>1. План «Ост» и «новый порядок»</h3>
+                    <p>Нацисты ввели расовый террор. Генеральный план <b>«Ост»</b> предусматривал уничтожение или выселение 75% белорусов, а оставшихся 25% — онемечить.</p>
+
+                    <h3>2. Лагеря смерти и трагедия деревень</h3>
+                    <p>Нацисты создали свыше 260 лагерей смерти (крупнейший — <strong>Тростенец</strong>) и более 110 гетто для евреев (Холокост). Около 385 тыс. человек вывезены в Германию в качестве чернорабочих (<b>остарбайтеров</b>).</p>
+                    <p><mark>22 марта 1943 года была сожжена деревня Хатынь вместе со 149 жителями</mark>. Более 600 деревень разделили судьбу Хатыни.</p>
+                `
+            },
+            21: {
+                title: "БССР во второй половине 1940-х – 1980-е гг.: социально-экономическое развитие",
+                html: `
+                    <h3>1. Послевоенное восстановление и урбанизация</h3>
+                    <p>Быстрыми темпами развивалось тяжелое машиностроение: началось производство карьерных самосвалов на <b>БелАЗе</b>, тракторов на МТЗ, холодильников на «Атланте». Шёл процесс урбанизации.</p>
+
+                    <h3>2. Эпоха НТР и застой</h3>
+                    <p>В <strong>1984 году</strong> была сдана в эксплуатацию первая линия <b>Минского метрополитена</b>. В сельском хозяйстве проводилась масштабная осушительная <b>мелиорация</b> Полесья и химизация почв.</p>
+                    <p>Чернобыльская катастрофа <mark>26 апреля 1986 года</mark> загрязнила 23% территории БССР радиоактивными осадками, тяжело ударив по экономике республики.</p>
+                `
+            },
+            22: {
+                title: "БССР во второй половине 1940-х – 1980-е гг.: образование, наука и культура",
+                html: `
+                    <h3>1. Образование и наука</h3>
+                    <p>В 1970-е гг. завершился переход к всеобщему среднему образованию. Физиолог <strong>В. Купревич</strong> возглавлял Академию наук БССР. Летчики <b>П. Климук</b> и <b>В. Коваленок</b> стали первыми белорусскими космонавтами.</p>
+
+                    <h3>2. Военная проза и искусство</h3>
+                    <p>Глубокую окопную правду о войне несли книги <strong>Василя Быкова</strong> («Сотников», «Знак беды»). Исторический роман представили <b>Иван Мележ</b> («Люди на болоте») и <b>Владимир Короткевич</b> («Колосья под серпом твоим»). Хит-песни БССР создавал ансамбль <mark>«Песняры» Владимира Мулявина</mark>.</p>
+                `
+            },
+            23: {
+                title: "Становление государственного суверенитета Республики Беларусь",
+                html: `
+                    <h3>1. Декларация о суверенитете и СНГ</h3>
+                    <p><mark>27 июля 1990 года принята Декларация о суверенитете БССР</mark>. 19 сентября 1991 года страна переименована в «Республику Беларусь». <b>8 декабря 1991 года</b> в Вискулях (Беловежская пуща) подписано историческое Беловежское соглашение, прекратившее существование СССР.</p>
+
+                    <h3>2. Конституция 1994 года и пост Президента</h3>
+                    <p><b>15 марта 1994 года</b> принята Конституция Республики Беларусь. Страна объявлена унитарным демократическим социальным правовым государством. Летом 1994 года первым Президентом был избран <strong>А. Г. Лукашенко</strong>.</p>
+                `
+            },
+            24: {
+                title: "Внешняя политика Республики Беларусь: приоритеты и интеграция",
+                html: `
+                    <h3>1. Международный статус и безопасность</h3>
+                    <p>Беларусь стала государством-учредителем <b>ООН</b> в 1945 году. Суверенная Беларусь вывела ядерное оружие со своей территории. Республика вступила в ОБСЕ и программу НАТО «Партнерство ради мира».</p>
+
+                    <h3>2. Союзное государство и Таможенный союз</h3>
+                    <p><mark>8 декабря 1999 года подписан договор о создании Союзного государства Беларуси и России</mark>. В 1995 году был создан Таможенный союз с РФ и Казахстаном, преобразованный в 2000 году в <b>ЕврАзЭС</b> (ныне ЕАЭС).</p>
+                `
+            },
+            25: {
+                title: "Социально-экономическое развитие Республики Беларусь: приоритеты государственной политики",
+                html: `
+                    <h3>1. Переход к рыночной экономике</h3>
+                    <p>С распадом СССР произошел разрыв производственных связей. С 1990 года введены свободные цены и началась приватизация. Государство сделало ставку на модернизацию крупных промышленных гигантов (<b>БелАЗ</b>, МАЗ, МТЗ).</p>
+
+                    <h3>2. Всебелорусские народные собрания</h3>
+                    <p>В <strong>1996 году</strong> состоялось <b>I Всебелорусское народное собрание (ВНС)</b>, определившее приоритеты развития на пятилетку под девизом «Государство для народа». С тех пор ВНС собирается каждые пять лет для корректировки опережающей стратегии развития.</p>
+                `
+            }
+        };
+
+        // БАЗА ДАННЫХ ТЕСТОВ (Полноценные 25 вопросов с подробной логикой неверных вариантов)
+        const quizQuestions = [
+            {
+                id: 1, bilet: 1, tema: "Древние люди на территории Беларуси",
+                question: "В какой период первобытного строя кроманьонцы впервые расселились на юге территории современной Беларуси?",
+                options: ["Бронзовый век", "Каменный век (палеолит)", "Железный век", "Средневековье"],
+                correct: 1,
+                wrongAnalysis: [
+                    "Выбрав <b>Бронзовый век</b>, вы ошиблись: в эту эпоху люди уже вовсю использовали металлы и перешли к производящему хозяйству, тогда как кроманьонцы пришли на наши земли намного раньше.",
+                    "", // Правильный ответ
+                    "Выбрав <b>Железный век</b>, вы ошиблись: обработка железа началась только в VII веке до н.э., когда первобытное общество кроманьонцев уже давно трансформировалось.",
+                    "Выбрав <b>Средневековье</b>, вы допустили грубую ошибку: это эпоха существования государств и городов, а не первобытных людей."
+                ],
+                explanation: "Кроманьонцы заселили юг Беларуси в эпоху <strong>палеолита (каменный век)</strong> около 40-35 тысяч лет назад.",
+                konspekt: "В каменном веке люди вели присваивающее хозяйство и жили общинами при матриархате."
+            },
+            {
+                id: 2, bilet: 2, tema: "Полоцкое и Туровское княжества",
+                question: "Под каким годом в летописях впервые упоминается город Полоцк?",
+                options: ["980 г.", "1067 г.", "862 г.", "992 г."],
+                correct: 2,
+                wrongAnalysis: [
+                    "В <b>980 году</b> впервые упоминается Туров, а Полоцк к этому времени уже существовал более века.",
+                    "В <b>1067 году</b> произошла битва на реке Немиге — Минск был сожжен, а не основан Полоцк.",
+                    "", // Правильный ответ
+                    "В <b>992 году</b> была основана первая православная епархия в Полоцке."
+                ],
+                explanation: "Город <b>Полоцк</b> впервые упоминается в 'Повести временных лет' под <strong>862 годом</strong>.",
+                konspekt: "Первым полоцким князем был Рогволод, чья дочь Рогнеда вошла в историю как княжна с тремя именами."
+            },
+            {
+                id: 3, bilet: 3, tema: "Христианизация белорусских земель",
+                question: "Какое выдающееся произведение древнего ювелирного искусства было создано по заказу Евфросинии Полоцкой в 1161 году?",
+                options: ["Слуцкий пояс", "Крест Евфросинии Полоцкой", "Туровское евангелие", "Псалтырь Скорины"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Слуцкие пояса</b> — это светские мануфактурные шедевры XVIII века, а не религиозная реликвия XII века.",
+                    "", // Правильный ответ
+                    "<b>Туровское евангелие</b> — это книга XI века, первая рукописная книга на пергаменте в Беларуси.",
+                    "<b>Псалтырь</b> — это первая печатная книга Франциска Скорины, выпущенная в Праге в 1517 году."
+                ],
+                explanation: "Шестиконечный напрестольный крест из золотых и серебряных пластин был создан мастером <b>Лазарем Богшей в 1161 году</b>.",
+                konspekt: "Крест Евфросинии Полоцкой считается главной христианской реликвией белорусского народа."
+            },
+            {
+                id: 4, bilet: 4, tema: "Образование Великого Княжества Литовского",
+                question: "В каком белорусском городе в 1253 году состоялась коронация балтского князя Миндовга?",
+                options: ["В Вильне", "В Полоцке", "В Новогрудке", "В Минске"],
+                correct: 2,
+                wrongAnalysis: [
+                    "<b>Вильна</b> стала столицей ВКЛ позже, при великом князе Гедимине в 1323 году.",
+                    "<b>Полоцк</b> был центром сильного Полоцкого княжества и вошел в ВКЛ на договорной основе.",
+                    "", // Правильный ответ
+                    "<b>Минск</b> в XIII веке еще не играл столичной роли в формирующемся государстве ВКЛ."
+                ],
+                explanation: "Коронация Миндовга состоялась в <strong>Новогрудке</strong> — первой столице Великого Княжества Литовского.",
+                konspekt: "Новогрудское княжество стало центром объединения благодаря своей безопасности и сильной торговле."
+            },
+            {
+                id: 5, bilet: 5, tema: "Борьба с агрессией крестоносцев",
+                question: "В каком году состоялась великая Грюнвальдская битва, остановившая экспансию Тевтонского ордена?",
+                options: ["1385 г.", "1569 г.", "1410 г.", "1362 г."],
+                correct: 2,
+                wrongAnalysis: [
+                    "В <b>1385 году</b> была подписана Кревская уния (династический союз ВКЛ и Польши).",
+                    "В <b>1569 году</b> была Люблинская уния, создавшая Речь Посполитую.",
+                    "", // Правильный ответ
+                    "В <b>1362 году</b> великий князь Ольгерд разбил монголо-татар в битве на Синих Водах."
+                ],
+                explanation: "Легендарная Грюнвальдская битва состоялась <strong>15 июля 1410 года</strong>.",
+                konspekt: "Разгром крестоносцев союзными войсками Витовта и Ягайло навсегда ликвидировал тевтонскую угрозу."
+            },
+            {
+                id: 6, bilet: 6, tema: "Франциск Скорина и его последователи",
+                question: "Какую первую печатную книгу издал Франциск Скорина 6 августа 1517 года в Праге?",
+                options: ["«Апостол»", "«Катехизис»", "«Псалтырь»", "«Букварь»"],
+                correct: 2,
+                wrongAnalysis: [
+                    "Книгу <b>«Апостол»</b> Скорина издал позже, в 1525 году в Вильне.",
+                    "<b>«Катехизис»</b> — это первая книга на старобелорусском языке, изданная Сымоном Будным в Несвиже в 1562 году.",
+                    "", // Правильный ответ
+                    "Первый в мире <b>«Букварь»</b> был напечатан в Евье только в 1618 году."
+                ],
+                explanation: "Доктор медицины Франциск Скорина напечатал свою первую книгу <strong>«Псалтырь» 6 августа 1517 г.</strong>",
+                konspekt: "Скорина заложил основы восточнославянского книгопечатания и перевел Библию."
+            },
+            {
+                id: 7, bilet: 7, tema: "Отечественная война 1812 года",
+                question: "Где произошла решающая трагическая переправа наполеоновской армии в ноябре 1812 года на территории Беларуси?",
+                options: ["Под Клястицами", "Под Салтановкой", "У деревни Студенка на Березине", "Под Смоленском"],
+                correct: 2,
+                wrongAnalysis: [
+                    "Бой <b>под Клястицами</b> произошел летом 1812 года и остановил наступление французов на Петербург.",
+                    "Битва <b>под Салтановкой</b> была оборонительным боем генерала Раевского в начале войны.",
+                    "", // Правильный ответ
+                    "<b>Смоленск</b> расположен на территории России, а не Беларуси."
+                ],
+                explanation: "Отступающая армия Наполеона понесла катастрофические потери на реке <b>Березина у деревни Студенка</b>.",
+                konspekt: "Война привела к опустошению Беларуси. Из-за грабежей французов крестьяне начали партизанскую борьбу."
+            },
+            {
+                id: 8, bilet: 8, tema: "Люблинская уния и Речь Посполитая",
+                question: "Какое государственное устройство получила Речь Посполитая по Люблинской унии 1569 года?",
+                options: ["Абсолютная монархия", "Федерация двух государств", "Унитарная империя", "Колония Польши"],
+                correct: 1,
+                wrongAnalysis: [
+                    "Речь Посполитая была шляхетской демократией с выборным королем, а не <b>абсолютной монархией</b>.",
+                    "", // Правильный ответ
+                    "В <b>унитарном государстве</b> составные части лишены автономии, тогда как ВКЛ сохранило армию и суды.",
+                    "ВКЛ не стало <b>колонией</b>, так как имело собственное законодательство (Статуты) и казну."
+                ],
+                explanation: "Речь Посполитая («общее дело») являлась <strong>федерацией</strong> Королевства Польского и ВКЛ.",
+                konspekt: "Люблинская уния была подписана 1 июля 1569 года на фоне тяжелой Ливонской войны."
+            },
+            {
+                id: 9, bilet: 9, tema: "Формирование белорусской народности",
+                question: "Какой язык являлся официальным государственным языком делопроизводства ВКЛ до конца XVII века?",
+                options: ["Латынь", "Польский", "Старобелорусский", "Литовский"],
+                correct: 2,
+                wrongAnalysis: [
+                    "<b>Латынь</b> использовалась католической церковью и в дипломатической переписке с Западной Европой.",
+                    "<b>Польский язык</b> стал вытеснять местный язык делопроизводства только с 1697 года по решению Сейма.",
+                    "", // Правильный ответ
+                    "<b>Литовский язык</b> в тот период не имел развитой письменности для ведения государственных законов."
+                ],
+                explanation: "До конца XVII в. государственные законы (Статуты ВКЛ) писались на <strong>старобелорусском языке</strong>.",
+                konspekt: "Белорусская народность формировалась в XIV-XVIII веках, старобелорусский язык определял её самобытность."
+            },
+            {
+                id: 10, bilet: 10, tema: "Аграрные реформы в Беларуси",
+                question: "Как назывались освобожденные крестьяне до выкупа земли у помещика по реформе 1861 года?",
+                options: ["Батраки", "Крепостные", "Временнообязанные", "Кулаки"],
+                correct: 2,
+                wrongAnalysis: [
+                    "<b>Батраки</b> — это безземельные наемные сельскохозяйственные рабочие.",
+                    "<b>Крепостными</b> они перестали быть сразу после оглашения Манифеста Александра II.",
+                    "", // Правильный ответ
+                    "<b>Кулаки</b> — это зажиточные крестьяне-предприниматели, использующие наемный труд."
+                ],
+                explanation: "До начала выплаты выкупных платежей крестьяне оставались <strong>временнообязанными</strong>.",
+                konspekt: "Реформа 1861 года дала крестьянам личную свободу, но заставила платить за землю тяжелый выкуп."
+            },
+            {
+                id: 11, bilet: 11, tema: "Революции начала XX века",
+                question: "Какое трагическое событие революции 1905–1907 гг. произошло в Минске 18 октября 1905 года?",
+                options: ["Кровавое воскресенье", "Курловский расстрел", "Разгон Всебелорусского съезда", "Февральский мятеж"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Кровавое воскресенье</b> произошло в Санкт-Петербурге 9 января 1905 года.",
+                    "", // Правильный ответ
+                    "<b>Разгон Всебелорусского съезда</b> большевиками произошел в декабре 1917 года.",
+                    "<b>Февральский мятеж</b> — события Февральской революции 1917 года."
+                ],
+                explanation: "У Либаво-Роменского вокзала в Минске произошел <strong>Курловский расстрел</strong> мирного рабочего митинга.",
+                konspekt: "Февральская революция 1917 года свергла самодержавие и привела к подъему национального движения."
+            },
+            {
+                id: 12, bilet: 12, tema: "Беларусь в Первой мировой войне",
+                question: "Оборона какого белорусского города русскими войсками длилась рекордные 810 дней?",
+                options: ["Брест", "Гродно", "Сморгонь", "Молодечно"],
+                correct: 2,
+                wrongAnalysis: [
+                    "<b>Брест</b> немцы заняли в августе 1915 года без многолетней позиционной обороны.",
+                    "<b>Гродно</b> был взят германскими войсками в ходе наступления 1915 года.",
+                    "", // Правильный ответ
+                    "Линия фронта проходила вблизи <b>Молодечно</b>, но сам город находился в тылу русских войск."
+                ],
+                explanation: "Город <b>Сморгонь</b> был полностью разрушен за <b>810 дней героической обороны</b> фронта.",
+                konspekt: "Первая мировая война вызвала гуманитарный кризис и волну беженства на восток."
+            },
+            {
+                id: 13, bilet: 13, tema: "Октябрьская революция 1917 г.",
+                question: "Что являлось основой жесткой политики «военного коммунизма» большевиков в 1918–1920 годах?",
+                options: ["Продналог", "Продразверстка", "Свободная торговля", "Хуторизация"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Продналог</b> — это фиксированная мера, введенная НЭПом в 1921 году взамен продразверстки.",
+                    "", // Правильный ответ
+                    "<b>Свободная торговля</b> была полностью запрещена в годы военного коммунизма.",
+                    "<b>Хуторизация</b> — мера Столыпинской аграрной реформы царских времен."
+                ],
+                explanation: "Основой продовольственной политики большевиков стала <strong>продразверстка</strong> (изъятие излишков зерна).",
+                konspekt: "Военный коммунизм вводил натуральный обмен, трудовую повинность и национализацию."
+            },
+            {
+                id: 14, bilet: 14, tema: "Создание ССРБ и БНР",
+                question: "В какую историческую дату манифестом в Смоленске было провозглашено создание ССРБ?",
+                options: ["25 марта 1918 г.", "1 января 1919 г.", "31 июля 1920 г.", "10 декабря 1921 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>25 марта 1918 года</b> была провозглашена независимость Белорусской Народной Республики (БНР).",
+                    "", // Правильный ответ
+                    "<b>31 июля 1920 года</b> состоялось второе провозглашение ССРБ после освобождения Минска.",
+                    "В <b>декабре 1921 года</b> ССРБ уже вела подготовку к созданию СССР."
+                ],
+                explanation: "Советская Социалистическая Республика Белоруссия (ССРБ) была провозглашена <strong>1 января 1919 года</strong>.",
+                konspekt: "Провозглашение советской республики стало ответом большевиков на попытки создания БНР."
+            },
+            {
+                id: 15, bilet: 15, tema: "Польско-советская война 1919–1921 гг.",
+                question: "Какой легендарный 74-летний народный герой возглавил партизанский отряд на Полесье против польских оккупантов?",
+                options: ["Константин Заслонов", "Дед Талаш", "Василий Корж", "Михаил Цуба"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Константин Заслонов</b> руководил подпольем на Оршанском железнодорожном узле в годы ВОВ.",
+                    "", // Правильный ответ
+                    "<b>Василий Корж</b> создал партизанский отряд в Пинском районе в 1941 году.",
+                    "<b>Михаил Цуба</b> — житель деревни Новины, повторивший подвиг Сусанина в годы ВОВ."
+                ],
+                explanation: "Легендарный <b>дед Талаш (Василий Исаакович Талаш)</b> возглавил отряд на Полесье в возрасте 74 лет.",
+                konspekt: "По Рижскому миру 18 марта 1921 года Западная Беларусь отошла Польше, БССР потеряла территории."
+            },
+            {
+                id: 16, bilet: 16, tema: "Культура БССР в 1920–1930-е годы",
+                question: "Какой первый белорусский художественный фильм был снят режиссером Юрием Таричем в 1926 году?",
+                options: ["«Белые Росы»", "«Девочка ищет отца»", "«Лесная быль»", "«Павлинка»"],
+                correct: 2,
+                wrongAnalysis: [
+                    "<b>«Белые Росы»</b> — это культовая советская комедия 1983 года.",
+                    "<b>«Девочка ищет отца»</b> — военный фильм, снятый в послевоенном 1959 году.",
+                    "", // Правильный ответ
+                    "<b>«Павлинка»</b> — пьеса Янки Купалы, экранизированная значительно позже."
+                ],
+                explanation: "Первым белорусским немым фильмом стала лента <strong>«Лесная быль» (1926 г.)</strong> о Гражданской войне.",
+                konspekt: "В годы белорусизации культура БССР бурно развивалась, открылся Инбелкульт."
+            },
+            {
+                id: 17, bilet: 17, tema: "Модернизация экономики БССР",
+                question: "Какой год в истории СССР и БССР был назван «годом великого перелома», положив начало форсированной коллективизации?",
+                options: ["1925 г.", "1929 г.", "1932 г.", "1937 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "В <b>1925 году</b> на съезде партии большевиков был взят курс на индустриализацию.",
+                    "", // Правильный ответ
+                    "В <b>1932 году</b> был введен паспортный режим, колхозников лишили паспортов.",
+                    "В <b>1937 году</b> репрессии достигли пика, и была принята сталинская Конституция БССР."
+                ],
+                explanation: "Сталин объявил <strong>1929 год</strong> «годом великого перелома», начав насильственное создание колхозов.",
+                konspekt: "Коллективизация сопровождалась ликвидацией единоличных крестьянских хозяйств и раскулачиванием."
+            },
+            {
+                id: 18, bilet: 18, tema: "Западная Беларусь в составе Польши",
+                question: "Где польскими властями в 1934 году был создан концентрационный лагерь для политзаключенных-белорусов?",
+                options: ["В Белостоке", "В Новогрудке", "В Березе-Картузской", "В Гродно"],
+                correct: 2,
+                wrongAnalysis: [
+                    "В <b>Белостоке</b> проходило Народное собрание Западной Беларуси в 1939 г.",
+                    "В <b>Новогрудке</b> проходила коронация Миндовга в XIII веке.",
+                    "", // Правильный ответ
+                    "В <b>Гродно</b> действовали польские тюрьмы, но концлагеря там не основывали."
+                ],
+                explanation: "Польский концлагерь для противников режима Пилсудского был создан в <strong>Березе-Картузской</strong>.",
+                konspekt: "Западная Беларусь подвергалась полонизации, закрывались все национальные школы и газеты."
+            },
+            {
+                id: 19, bilet: 19, tema: "Подвиг народа в годы ВОВ",
+                question: "Кто руководил подпольщиками на железнодорожном узле Орша, саботируя немецкие эшелоны при помощи угольных мин?",
+                options: ["Василий Корж", "Константин Заслонов", "Марат Казей", "Тихон Бумажков"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Василий Корж</b> командовал партизанским отрядом в Пинском районе.",
+                    "", // Правильный ответ
+                    "<b>Марат Казей</b> был юным пионером-героем, партизанским разведчиком.",
+                    "<b>Тихон Бумажков</b> создал партизанский отряд на Полесье и стал одним из первых Героев СССР."
+                ],
+                explanation: "Подрывом паровозов в Орше руководил легендарный подпольщик <strong>Константин Заслонов</strong>.",
+                konspekt: "Оршанские подпольщики маскировали мины под куски угля, уничтожив сотни паровозов."
+            },
+            {
+                id: 20, bilet: 20, tema: "Геноцид населения Беларуси в годы ВОВ",
+                question: "В какую трагическую дату карателями была уничтожена белорусская деревня Хатынь вместе с её 149 жителями?",
+                options: ["22 июня 1941 г.", "22 марта 1943 г.", "3 июля 1944 г.", "26 апреля 1986 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>22 июня 1941 года</b> началась Великая Отечественная война.",
+                    "", // Правильный ответ
+                    "<b>3 июля 1944 года</b> — день освобождения Минска от немецко-фашистских захватчиков.",
+                    "<b>26 апреля 1986 года</b> произошла авария на Чернобыльской АЭС."
+                ],
+                explanation: "Каратели сожгли Хатынь вместе со всеми жителями (из них 76 детей) <strong>22 марта 1943 года</strong>.",
+                konspekt: "Хатынь стала символом трагедии сотен белорусских деревень, уничтоженных нацистами."
+            },
+            {
+                id: 21, bilet: 21, tema: "БССР во второй половине ХХ века",
+                question: "В каком году в Минске была сдана в эксплуатацию первая линия Минского метрополитена?",
+                options: ["1965 г.", "1984 г.", "1991 г.", "1970 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "В <b>1965 году</b> Пётр Машеров стал главой ЦК Компартии Беларуси.",
+                    "", // Правильный ответ
+                    "В <b>1991 году</b> распался СССР и БССР была переименована в Республику Беларусь.",
+                    "В <b>1970 году</b> шло активное проектирование подземного транспорта столицы."
+                ],
+                explanation: "Торжественный запуск первой линии Минского метрополитена состоялся в <strong>июне 1984 года</strong>.",
+                konspekt: "БССР во второй половине ХХ века стала сильным индустриальным центром советского государства."
+            },
+            {
+                id: 22, bilet: 22, tema: "Культура и наука БССР",
+                question: "Кто из белорусских писателей является автором психологических военных повестей «Сотников» и «Знак беды»?",
+                options: ["Иван Мележ", "Василь Быков", "Владимир Короткевич", "Михась Лыньков"],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>Иван Мележ</b> создал трилогию «Полесская хроника» (роман «Люди на болоте»).",
+                    "", // Правильный ответ
+                    "<b>Владимир Короткевич</b> писал исторические романы («Колосья под серпом твоим»).",
+                    "<b>Михась Лыньков</b> является автором эпопеи «Незабываемые дни»."
+                ],
+                explanation: "Выдающийся писатель-фронтовик <strong>Василь Быков</strong> создал повести «Сотников» и «Знак беды».",
+                konspekt: "Белорусские писатели послевоенного времени внесли огромный вклад в сохранение суровой правды о ВОВ."
+            },
+            {
+                id: 23, bilet: 23, tema: "Суверенная Республика Беларусь",
+                question: "В какую точную дату Верховным Советом была принята Конституция суверенной Республики Беларусь?",
+                options: ["27 июля 1990 г.", "15 марта 1994 г.", "8 декабря 1991 г.", "24 ноября 1996 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>27 июля 1990 года</b> была принята Декларация о суверенитете БССР.",
+                    "", // Правильный ответ
+                    "<b>8 декабря 1991 года</b> было подписано Беловежское соглашение.",
+                    "<b>24 ноября 1996 года</b> состоялся референдум по изменению структуры власти Конституции."
+                ],
+                explanation: "Конституция Республики Беларусь была принята Верховным Советом <strong>15 марта 1994 года</strong>.",
+                konspekt: "По Конституции 1994 г. страна объявлялась унитарным демократическим социальным правовым государством."
+            },
+            {
+                id: 24, bilet: 24, tema: "Внешняя политика Беларуси",
+                question: "В какую точную дату был подписан Договор о создании Союзного государства Беларуси и России?",
+                options: ["27 июля 1990 г.", "8 декабря 1999 г.", "15 марта 1994 г.", "24 ноября 1996 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "<b>27 июля 1990 года</b> была принята Декларация о суверенитете БССР.",
+                    "", // Правильный ответ
+                    "<b>15 марта 1994 года</b> была принята Конституция Республики Беларусь.",
+                    "<b>24 ноября 1996 года</b> состоялся республиканский референдум."
+                ],
+                explanation: "Договор о создании Союзного государства Беларуси и России был подписан <strong>8 декабря 1999 года</strong>.",
+                konspekt: "Создание Союзного государства позволило укрепить тесные интеграционные связи двух братских народов."
+            },
+            {
+                id: 25, bilet: 25, tema: "Социально-экономическое развитие Республики Беларусь",
+                question: "В каком году в Минске состоялось I Всебелорусское народное собрание (ВНС)?",
+                options: ["1994 г.", "1996 г.", "2001 г.", "2006 г."],
+                correct: 1,
+                wrongAnalysis: [
+                    "В <b>1994 году</b> в Беларуси прошли первые альтернативные президентские выборы.",
+                    "", // Правильный ответ
+                    "В <b>2001 году</b> состоялось второе Всебелорусское народное собрание.",
+                    "В <b>2006 году</b> прошло третье ВНС под девизом «Государство для народа»."
+                ],
+                explanation: "I Всебелорусское народное собрание состоялось в Минске в <strong>октябре 1996 года</strong>.",
+                konspekt: "ВНС утвердило Основные направления социально-экономического развития Республики Беларусь."
+            }
+        ];
+
+        // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ПРИЛОЖЕНИЯ
+        let currentQuestions = [];
+        let currentQuestionIdx = 0;
+        let score = 0;
+        let selectedOptionIdx = null;
+        let countdownTimer = null;
+        let secondsRemaining = 30;
+        let hintUsedThisQuestion = false;
+        let currentStreak = 0;
+        let totalHintsCount = 3;
+        let appTheme = 'dark';
+        let weakSpotIds = [];
+        let ticketsCompleted = {};
+        let activeNavTab = 'test';
+
+        // ГЛОБАЛЬНЫЕ ССЫЛКИ НА ЭКРАНЫ (объявлены здесь, чтобы были доступны во всех функциях)
+        let welcomeScreen, quizScreen, resultScreen;
+
+        // Инициализация при загрузке
+        window.addEventListener('DOMContentLoaded', () => {
+            welcomeScreen = document.getElementById('welcome-screen');
+            quizScreen = document.getElementById('quiz-screen');
+            resultScreen = document.getElementById('result-screen');
+
+            lucide.createIcons();
+            loadProgress();
+            renderTickets();
+            updateWeakSpotsBadge();
+            renderConspectNav();
+            
+            // Навешивание поиска по тестам
+            document.getElementById('ticket-search').addEventListener('input', filterTickets);
+            
+            // Кнопка темы
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+            // Инициализация первого конспекта
+            showConspect(1);
+        });
+
+        // ПЕРЕКЛЮЧЕНИЕ ТАБОВ НАВИГАЦИИ (Тест | Конспект)
+        function switchNavTab(tabName) {
+            activeNavTab = tabName;
+            document.getElementById('nav-test-tab').classList.remove('active');
+            document.getElementById('nav-conspect-tab').classList.remove('active');
+
+            if (tabName === 'test') {
+                document.getElementById('nav-test-tab').classList.add('active');
+                document.getElementById('conspect-screen').classList.remove('active');
+                document.getElementById('welcome-screen').classList.add('active');
+                document.getElementById('quiz-screen').classList.remove('active');
+                document.getElementById('result-screen').classList.remove('active');
+            } else {
+                document.getElementById('nav-conspect-tab').classList.add('active');
+                document.getElementById('welcome-screen').classList.remove('active');
+                document.getElementById('quiz-screen').classList.remove('active');
+                document.getElementById('result-screen').classList.remove('active');
+                document.getElementById('conspect-screen').classList.add('active');
+            }
+        }
+
+        // ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (Светлая / Тёмная)
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                appTheme = 'dark';
+                themeIcon.setAttribute('data-lucide', 'sun');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                appTheme = 'light';
+                themeIcon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // СОХРАНЕНИЕ / ЗАГРУЗКА ПРОГРЕССА
+        function loadProgress() {
+            try {
+                const savedWeak = localStorage.getItem('by_history_weak_spots_v3');
+                if (savedWeak) weakSpotIds = JSON.parse(savedWeak);
+
+                const savedCompleted = localStorage.getItem('by_history_tickets_completed_v3');
+                if (savedCompleted) ticketsCompleted = JSON.parse(savedCompleted);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function saveProgress() {
+            try {
+                localStorage.setItem('by_history_weak_spots_v3', JSON.stringify(weakSpotIds));
+                localStorage.setItem('by_history_tickets_completed_v3', JSON.stringify(ticketsCompleted));
+                updateWeakSpotsBadge();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateWeakSpotsBadge() {
+            const badge = document.getElementById('weak-count-badge');
+            const btn = document.getElementById('btn-weak-spots');
+            badge.innerText = weakSpotIds.length;
+            if (weakSpotIds.length > 0) {
+                btn.removeAttribute('disabled');
+            } else {
+                btn.setAttribute('disabled', 'true');
+            }
+        }
+
+        function resetStats() {
+            if (confirm("Вы уверены, что хотите сбросить весь прогресс?")) {
+                weakSpotIds = [];
+                ticketsCompleted = {};
+                saveProgress();
+                renderTickets();
+                alert("Прогресс сброшен.");
+            }
+        }
+
+        // РЕНДЕР БИЛЕТОВ НА ГЛАВНОЙ
+        function renderTickets() {
+            const ticketsGrid = document.getElementById('tickets-list-grid');
+            ticketsGrid.innerHTML = '';
+            for (let i = 1; i <= 25; i++) {
+                const isCompleted = ticketsCompleted[i];
+                const card = document.createElement('div');
+                card.className = `ticket-item ${isCompleted ? 'completed' : ''}`;
+                card.setAttribute('data-bilet', i);
+                card.onclick = () => startMode('ticket', i);
+                
+                const data = conspectsDatabase[i];
+                const cleanTitle = data ? data.title.split(':')[0].trim() : `Билет №${i}`;
+                
+                card.innerHTML = `
+                    <div style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); font-weight:700;">Билет</div>
+                    <div style="font-family: var(--font-display); font-size: 26px; font-weight: 700; margin: 4px 0; color: var(--text-primary);">${i}</div>
+                    <div style="font-size: 11px; color: var(--text-secondary); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%;" title="${cleanTitle}">${cleanTitle}</div>
+                `;
+                ticketsGrid.appendChild(card);
+            }
+        }
+
+        // Поиск билетов
+        function filterTickets() {
+            const val = document.getElementById('ticket-search').value.toLowerCase();
+            const items = document.querySelectorAll('.ticket-item');
+            items.forEach(item => {
+                const biletNum = item.getAttribute('data-bilet');
+                const data = conspectsDatabase[biletNum];
+                const textToSearch = ((data ? data.title : "") + " " + biletNum).toLowerCase();
+                if (textToSearch.includes(val)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // ЗАПУСК РЕЖИМА ТЕСТИРОВАНИЯ
+        function startMode(mode, parameter = null) {
+            currentQuestions = [];
+            currentQuestionIdx = 0;
+            score = 0;
+            hintUsedThisQuestion = false;
+            document.getElementById('next-button').style.display = 'none';
+            document.getElementById('explanation-panel').style.display = 'none';
+            document.getElementById('wrong-analysis-panel').style.display = 'none';
+
+            if (mode === 'random') {
+                document.getElementById('quiz-info-mode').innerText = "Режим: Случайные вопросы";
+                currentQuestions = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+            } 
+            else if (mode === 'weak') {
+                document.getElementById('quiz-info-mode').innerText = "Режим: Слабые места";
+                currentQuestions = quizQuestions.filter(q => weakSpotIds.includes(q.id));
+            } 
+            else if (mode === 'exam') {
+                const randomBilet = Math.floor(Math.random() * 25) + 1;
+                document.getElementById('quiz-info-mode').innerText = `Экзамен: Билет ${randomBilet}`;
+                currentQuestions = quizQuestions.filter(q => q.bilet === randomBilet);
+            } 
+            else if (mode === 'ticket') {
+                document.getElementById('quiz-info-mode').innerText = `Билет № ${parameter}`;
+                currentQuestions = quizQuestions.filter(q => q.bilet === parameter);
+            }
+
+            welcomeScreen.classList.remove('active');
+            resultScreen.classList.remove('active');
+            document.getElementById('conspect-screen').classList.remove('active');
+            quizScreen.classList.add('active');
+
+            totalHintsCount = 3;
+            updateHintsBadge();
+            showQuestion();
+        }
+
+        function updateHintsBadge() {
+            const hintButton = document.getElementById('hint-button');
+            document.getElementById('hints-count-badge').innerText = totalHintsCount;
+            if (totalHintsCount <= 0) {
+                hintButton.setAttribute('disabled', 'true');
+            } else {
+                hintButton.removeAttribute('disabled');
+            }
+        }
+
+        // ОТОБРАЖЕНИЕ ТЕКУЩЕГО ВОПРОСА
+        function showQuestion() {
+            const progresssBar = document.getElementById('quiz-progress');
+            const optionsContainer = document.getElementById('options-container');
+            const hintButton = document.getElementById('hint-button');
+            
+            if (currentQuestionIdx >= currentQuestions.length) {
+                finishQuiz();
+                return;
+            }
+
+            const q = currentQuestions[currentQuestionIdx];
+            selectedOptionIdx = null;
+            hintUsedThisQuestion = false;
+
+            document.getElementById('explanation-panel').style.display = 'none';
+            document.getElementById('wrong-analysis-panel').style.display = 'none';
+            document.getElementById('next-button').style.display = 'none';
+            hintButton.removeAttribute('disabled');
+            updateHintsBadge();
+
+            document.getElementById('quiz-info-ticket').innerText = `Билет №${q.bilet}`;
+            document.getElementById('question-theme-badge').innerText = q.tema;
+            document.getElementById('question-title-text').innerText = q.question;
+
+            // Рендер вариантов
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-item';
+                btn.onclick = () => selectOption(idx);
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <div class="option-marker">${String.fromCharCode(65 + idx)}</div>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            const percent = (currentQuestionIdx / currentQuestions.length) * 100;
+            progresssBar.style.width = `${percent}%`;
+
+            startTimer();
+        }
+
+        // ТАЙМЕР
+        function startTimer() {
+            clearInterval(countdownTimer);
+            secondsRemaining = 30;
+            const timerSec = document.getElementById('timer-seconds');
+            const timerBadge = document.getElementById('timer-display');
+            timerSec.innerText = secondsRemaining;
+            timerBadge.classList.remove('danger');
+
+            countdownTimer = setInterval(() => {
+                secondsRemaining--;
+                timerSec.innerText = secondsRemaining;
+
+                if (secondsRemaining <= 10) {
+                    timerBadge.classList.add('danger');
+                }
+
+                if (secondsRemaining <= 0) {
+                    clearInterval(countdownTimer);
+                    autoTimeOut();
+                }
+            }, 1000);
+        }
+
+        function autoTimeOut() {
+            const q = currentQuestions[currentQuestionIdx];
+            selectOption(q.correct === 0 ? 1 : 0, true);
+        }
+
+        // ПОДСКАЗКА 50/50
+        function useHint() {
+            if (hintUsedThisQuestion || totalHintsCount <= 0) return;
+            const q = currentQuestions[currentQuestionIdx];
+            const correctIdx = q.correct;
+            const optionsContainer = document.getElementById('options-container');
+            const hintButton = document.getElementById('hint-button');
+
+            let wrongIndices = [];
+            q.options.forEach((_, idx) => {
+                if (idx !== correctIdx) wrongIndices.push(idx);
+            });
+
+            wrongIndices.sort(() => Math.random() - 0.5);
+            const toHide = wrongIndices.slice(0, 2);
+
+            const optionElements = optionsContainer.querySelectorAll('.option-item');
+            toHide.forEach(idx => {
+                optionElements[idx].style.opacity = '0.25';
+                optionElements[idx].classList.add('disabled');
+                optionElements[idx].onclick = null;
+            });
+
+            totalHintsCount--;
+            hintUsedThisQuestion = true;
+            hintButton.setAttribute('disabled', 'true');
+            updateHintsBadge();
+        }
+
+        // КЛИК НА ВАРИАНТ ОТВЕТА
+        function selectOption(idx, isTimeout = false) {
+            if (selectedOptionIdx !== null) return;
+
+            clearInterval(countdownTimer);
+            selectedOptionIdx = idx;
+            const q = currentQuestions[currentQuestionIdx];
+            const correctIdx = q.correct;
+            const isCorrect = (idx === correctIdx);
+            const optionsContainer = document.getElementById('options-container');
+            const hintButton = document.getElementById('hint-button');
+            const nextButton = document.getElementById('next-button');
+
+            const optionElements = optionsContainer.querySelectorAll('.option-item');
+            hintButton.setAttribute('disabled', 'true');
+
+            optionElements.forEach((el, i) => {
+                el.classList.add('disabled');
+                el.onclick = null;
+                if (i === correctIdx) {
+                    el.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                optionElements[idx].classList.add('correct');
+                score++;
+                currentStreak++;
+                playSound(true);
+                showStreakEffect();
+            } else {
+                if (!isTimeout) {
+                    optionElements[idx].classList.add('wrong');
+                }
+                currentStreak = 0;
+                playSound(false);
+                if (!weakSpotIds.includes(q.id)) {
+                    weakSpotIds.push(q.id);
+                    saveProgress();
+                }
+
+                // Показ неверного анализа (к чему вел этот неверный вывод)
+                const wrongAnalysisPanel = document.getElementById('wrong-analysis-panel');
+                const wrongAnalysisText = document.getElementById('wrong-analysis-text-content');
+                wrongAnalysisText.innerHTML = q.wrongAnalysis[idx] || "Этот ответ уводит вас в сторону от исторической точности.";
+                wrongAnalysisPanel.style.display = 'block';
+            }
+
+            // Показ объяснения
+            const explanationPanel = document.getElementById('explanation-panel');
+            const explanationContent = document.getElementById('explanation-text-content');
+            explanationContent.innerHTML = q.explanation;
+            explanationPanel.style.display = 'block';
+
+            nextButton.style.display = 'inline-flex';
+        }
+
+        function showStreakEffect() {
+            const streakIndicator = document.getElementById('streak-indicator');
+            if (currentStreak >= 3) {
+                streakIndicator.style.display = 'flex';
+                document.getElementById('streak-count').innerText = currentStreak;
+                if (currentStreak % 3 === 0) {
+                    triggerConfetti(25);
+                }
+            } else {
+                streakIndicator.style.display = 'none';
+            }
+        }
+
+        function goToNextQuestion() {
+            currentQuestionIdx++;
+            showQuestion();
+        }
+
+        function finishQuiz() {
+            quizScreen.classList.remove('active');
+            resultScreen.classList.add('active');
+
+            const percent = Math.round((score / currentQuestions.length) * 100);
+            document.getElementById('result-score-val').innerText = `${percent}%`;
+
+            const titleTxt = document.getElementById('result-title-txt');
+            const descTxt = document.getElementById('result-desc-txt');
+
+            if (percent >= 90) {
+                titleTxt.innerText = "🎉 Блестящий результат!";
+                descTxt.innerText = `Вы верно ответили на ${score} из ${currentQuestions.length} вопросов. Вы отлично ориентируетесь в истории!`;
+                triggerConfetti(80);
+            } else if (percent >= 60) {
+                titleTxt.innerText = "👍 Хорошо!";
+                descTxt.innerText = `Ваш результат ${score} из ${currentQuestions.length}. Проанализируйте слабые места и прочитайте конспект для закрепления.`;
+            } else {
+                titleTxt.innerText = "📚 Стоит повторить конспекты";
+                descTxt.innerText = `Вы ответили правильно на ${score} из ${currentQuestions.length}. Перейдите во вкладку 'Конспект', чтобы подтянуть знания.`;
+            }
+
+            // Фиксация в localStorage результатов
+            const firstQ = currentQuestions[0];
+            if (firstQ) {
+                ticketsCompleted[firstQ.bilet] = true;
+                saveProgress();
+                renderTickets();
+            }
+        }
+
+        function backToWelcome() {
+            resultScreen.classList.remove('active');
+            welcomeScreen.classList.add('active');
+        }
+
+        function showWelcomeScreen() {
+            switchNavTab('test');
+        }
+
+        function shareResult() {
+            const percentStr = document.getElementById('result-score-val').innerText;
+            const textToCopy = `Я прошел тренажёр по истории Беларуси на ${percentStr}! Попробуй и ты подготовиться к экзамену:`;
+            
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            alert("Результат скопирован в буфер обмена!");
+        }
+
+        // ЛОГИКА КОНСПЕКТОВ
+        function renderConspectNav() {
+            const navList = document.getElementById('conspect-nav-list');
+            navList.innerHTML = '';
+            for (let i = 1; i <= 25; i++) {
+                const item = conspectsDatabase[i];
+                const btn = document.createElement('button');
+                btn.className = `conspect-nav-item ${i === 1 ? 'active' : ''}`;
+                btn.id = `conspect-nav-btn-${i}`;
+                btn.onclick = () => showConspect(i);
+                
+                const cleanTitle = item ? item.title.split(':')[0].trim() : `Билет №${i}`;
+                
+                btn.innerHTML = `
+                    <span class="nav-item-num">Билет №${i}</span>
+                    <span style="font-size:12px; font-weight:600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width:100%; display:block;" title="${cleanTitle}">${cleanTitle}</span>
+                `;
+                navList.appendChild(btn);
+            }
+        }
+
+        function showConspect(num) {
+            document.querySelectorAll('.conspect-nav-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`conspect-nav-btn-${num}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const area = document.getElementById('conspect-content-area');
+            const data = conspectsDatabase[num];
+
+            if (data) {
+                area.innerHTML = `
+                    <div class="conspect-header-block">
+                        <div class="conspect-ticket-num">Экзаменационный Билет №${num}</div>
+                        <h1 class="conspect-title">${data.title}</h1>
+                    </div>
+                    <div class="conspect-body">
+                        ${data.html}
+                    </div>
+                `;
+            } else {
+                area.innerHTML = `<p>Конспект билета №${num} загружается...</p>`;
+            }
+            area.scrollTop = 0;
+        }
+
+        function filterConspects() {
+            const val = document.getElementById('conspect-search-input').value.toLowerCase();
+            for (let i = 1; i <= 25; i++) {
+                const item = conspectsDatabase[i];
+                const btn = document.getElementById(`conspect-nav-btn-${i}`);
+                if (btn) {
+                    const text = (item ? item.title + " " + item.html : "").toLowerCase();
+                    if (text.includes(val) || String(i).includes(val)) {
+                        btn.style.display = 'flex';
+                    } else {
+                        btn.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        // КОНФЕТТИ ЭФФЕКТ (через Canvas)
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettiActive = false;
+        let confettiArray = [];
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height;
+                this.size = Math.random() * 8 + 4;
+                this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function triggerConfetti(amount) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.display = 'block';
+            confettiActive = true;
+            confettiArray = [];
+            for (let i = 0; i < amount; i++) {
+                confettiArray.push(new Confetti());
+            }
+            
+            let frame = 0;
+            function animate() {
+                if (!confettiActive) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiArray.forEach(c => {
+                    c.update();
+                    c.draw();
+                });
+                frame++;
+                if (frame < 120) {
+                    requestAnimationFrame(animate);
+                } else {
+                    confettiActive = false;
+                    canvas.style.display = 'none';
+                }
+            }
+            animate();
+        }
+
+        // WEB AUDIO API
+        let audioCtx = null;
+        function playTone(freq, type, duration) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {
+                console.log(e);
+            }
+        }
+
+        function playSound(isCorrect) {
+            if (isCorrect) {
+                playTone(523.25, 'triangle', 0.15);
+                setTimeout(() => playTone(659.25, 'triangle', 0.25), 100);
+            } else {
+                playTone(180, 'sawtooth', 0.35);
+            }
+        }
+    </script>
+</body>
+</html>
